@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Initialization</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --panel-bg: #121215;
+            --accent-green: #00ff66;
+            --accent-green-glow: rgba(0, 255, 102, 0.15);
+            --border-color: #232329;
+            --text-primary: #ffffff;
+            --text-secondary: #8a8a93;
+            --error-color: #ff3b30;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Приятное зеленое свечение сверху */
+        body::before {
+            content: "";
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-green-glow) 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.815rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background: #1a1a1f;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px 16px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--accent-green);
+            background: #1d1d24;
+            box-shadow: 0 0 12px rgba(0, 255, 102, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--text-primary);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background: #e4e4e7;
+            transform: translateY(-1px);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="title">Initialize Data</h1>
+        <p class="subtitle">Please fill in the fields below to update your profile</p>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+            <!-- USERNAME -->
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" id="id_username" name="username" required placeholder="e.g. john_doe">
+                {% if form.username.errors %}
+                    <span class="error-message">{{ form.username.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+                <label for="id_email">Email Address</label>
+                <input type="email" id="id_email" name="email" required placeholder="name@example.com">
+                {% if form.email.errors %}
+                    <span class="error-message">{{ form.email.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" id="id_password" name="password" required placeholder="Enter your password">
+                {% if form.password.errors %}
+                    <span class="error-message">{{ form.password.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- PASSWORD 2 (CONFIRM PASSWORD) -->
+            <div class="form-group">
+                <label for="id_password2">Confirm Password</label>
+                <input type="password" id="id_password2" name="password2" required placeholder="Repeat your password">
+                {% if form.password2.errors %}
+                    <span class="error-message">{{ form.password2.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- AGE -->
+            <div class="form-group">
+                <label for="id_age">Age</label>
+                <input type="number" id="id_age" name="age" required placeholder="e.g. 25">
+                {% if form.age.errors %}
+                    <span class="error-message">{{ form.age.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- ABOUT -->
+            <div class="form-group">
+                <label for="id_about">About Yourself</label>
+                <textarea id="id_about" name="about" placeholder="Tell us a few words about yourself..."></textarea>
+                {% if form.about.errors %}
+                    <span class="error-message">{{ form.about.errors.as_text }}</span>
+                {% endif %}
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit" class="btn-submit">Submit Details</button>
+        </form>
+    </div>
+
+</body>
+</html>

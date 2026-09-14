@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution Catalog</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #06090b;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+        .glow-1 {
+            background: radial-gradient(circle, #00f2fe 0%, #4facfe 100%);
+            top: -10%;
+            right: -5%;
+        }
+        .glow-2 {
+            background: radial-gradient(circle, #22c55e 0%, #00f2fe 100%);
+            bottom: -10%;
+            left: -5%;
+            animation-delay: -5s;
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.12; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.18; }
+        }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 242, 254, 0.06);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .account-badge:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+        }
+        .catalog-top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 20px 30px;
+            background: rgba(20, 27, 33, 0.4);
+            justify-content: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .category-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .category-btn:hover {
+            background: rgba(0, 242, 254, 0.08);
+            border-color: #00f2fe;
+            color: #00f2fe;
+        }
+        .search-section {
+            width: 100%;
+        }
+        .search-form {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+        .search-input {
+            flex: 1;
+            background: rgba(20, 27, 33, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-input:focus {
+            border-color: #00f2fe;
+        }
+        .search-btn {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            color: #06090b;
+            border: none;
+            padding: 0 28px;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .search-btn:hover {
+            transform: translateY(-1px);
+        }
+        .pages-visualizer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.95rem;
+            color: #94a3b8;
+            flex-wrap: wrap;
+        }
+        .page-emoji {
+            font-size: 1.25rem;
+            animation: popIn 0.3s ease forwards;
+        }
+        .page-more-count {
+            background: rgba(0, 242, 254, 0.1);
+            color: #00f2fe;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .cards-feed {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+        }
+        .glass-card {
+            background: rgba(20, 27, 33, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 242, 254, 0.2);
+        }
+        .feed-placeholder {
+            border: 2px dashed rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            width: 100%;
+        }
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .catalog-top-bar { padding: 15px; gap: 8px; }
+            .search-form { flex-direction: column; }
+            .search-btn { padding: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <header>
+        <a href="#" class="logo">Nature's Word</a>
+        <div class="nav-links">
+            <a href="#" class="account-badge">Profile</a>
+        </div>
+    </header>
+    <div class="catalog-top-bar">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="animals" class="category-btn">Animals</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="biomes" class="category-btn">Biomes</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="plants" class="category-btn">Plants</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="fungi" class="category-btn">Fungi</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="ocean" class="category-btn">Ocean</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="microworld" class="category-btn">Microworld</button>
+        </form>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <button type="submit" name="category" value="insects" class="category-btn">Insects</button>
+        </form>
+    </div>
+    <main>
+        <div class="search-section">
+            <form method="GET" action="" class="search-form">
+                <input type="text" name="q" placeholder="Search indexes..." class="search-input" value="{{ request.GET.q }}">
+                <button type="submit" class="search-btn">Search</button>
+            </form>
+        </div>
+
+        {% if page_obj.paginator.num_pages and page_obj.paginator.num_pages > 0 %}
+        <div class="pages-visualizer">
+            <span>Pages found: </span>
+            {% if page_obj.paginator.num_pages <= 10 %}
+                {% if page_obj.paginator.num_pages >= 1 %}<span class="page-emoji">🌿</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 2 %}<span class="page-emoji">🦊</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 3 %}<span class="page-emoji">🍄</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 4 %}<span class="page-emoji">🐋</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 5 %}<span class="page-emoji">🌲</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 6 %}<span class="page-emoji">🦋</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 7 %}<span class="page-emoji">🦉</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 8 %}<span class="page-emoji">🍀</span>{% endif %}
+                {% if page_obj.paginator.num_pages >= 9 %}<span class="page-emoji">🐙</span>{% endif %}
+                {% if page_obj.paginator.num_pages == 10 %}<span class="page-emoji">🦁</span>{% endif %}
+            {% elif page_obj.paginator.num_pages <= 109 %}
+                <span class="page-emoji">🌿</span><span class="page-emoji">🦊</span><span class="page-emoji">🍄</span><span class="page-emoji">🐋</span><span class="page-emoji">🌲</span><span class="page-emoji">🦋</span><span class="page-emoji">🦉</span><span class="page-emoji">🍀</span><span class="page-emoji">🐙</span><span class="page-emoji">🦁</span>
+                <span class="page-more-count">+{{ page_obj.paginator.num_pages|add:"-10" }} more</span>
+            {% else %}
+                <span class="page-emoji">🌿</span><span class="page-emoji">🦊</span><span class="page-emoji">🍄</span><span class="page-emoji">🐋</span><span class="page-emoji">🌲</span><span class="page-emoji">🦋</span><span class="page-emoji">🦉</span><span class="page-emoji">🍀</span><span class="page-emoji">🐙</span><span class="page-emoji">🦁</span>
+                <span class="page-more-count">+99+ more</span>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="cards-feed">
+            {% for index in indexes %}
+                <div class="glass-card">
+                    <h3>{{ index.title }}</h3>
+                    <p>{{ index.description }}</p>
+                </div>
+            {% empty %}
+                <div class="feed-placeholder">
+                    <p>No results found matching your criteria. Try adjusting your filters or search query.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+</html>

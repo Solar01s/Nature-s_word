@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature's Word by UV</title>
+    <style>
+        /* Обнуление и базовые стили */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #06090b;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Динамический сочный неоновый фон */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, #00f2fe 0%, #4facfe 100%);
+            top: -10%;
+            right: -5%;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, #22c55e 0%, #00f2fe 100%);
+            bottom: -10%;
+            left: -5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.12; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.18; }
+        }
+
+        /* Стеклянная шапка (Glassmorphism Header) */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #00f2fe;
+        }
+
+        /* Кнопка аккаунта / пользователя */
+        .account-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 242, 254, 0.06);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 8px 16px;
+            border-radius: 30px;
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .account-badge:hover {
+            background: rgba(0, 242, 254, 0.15);
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+        }
+
+        /* Главный контейнер */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 50px 20px;
+            z-index: 1;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        /* Приветственный блок (Hero) */
+        .hero-section {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Карточки-панели (Glass Cards) */
+        .glass-card {
+            background: rgba(20, 27, 33, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        /* Стили для Guest Mode */
+        .guest-box {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .guest-box h2 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .guest-box p {
+            color: #64748b;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Кнопка регистрации */
+        .btn-primary {
+            display: inline-block;
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            color: #06090b;
+            text-decoration: none;
+            padding: 14px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 242, 254, 0.4);
+        }
+
+        /* Блок подсказки и ссылка на Вход */
+        .login-prompt {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .login-link {
+            color: #00f2fe;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 6px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #22c55e;
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Блок фида контента */
+        .feed-section h2 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feed-section h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feed-placeholder {
+            border: 2px dashed rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            color: #475569;
+            font-style: italic;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero-section h1 { font-size: 2.2rem; }
+            .glass-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <header>
+        <a href="/" class="logo">Nature's Word</a>
+        <nav class="nav-links">
+            <a href="{% url 'nature_index' %}" class="nav-item">Nature Index</a>
+            <a href="#" class="nav-item">About</a>
+            <a href="#" class="nav-item">Spaces</a>
+
+            {% if not request.user.is_authenticated %}
+                <a href="{% url 'login' %}" class="account-badge">Account</a>
+            {% else %}
+                <a href="{% url 'account' %}" class="account-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    {{ user.username }}
+                </a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="hero-section">
+            <h1>Welcome back</h1>
+            <p>Explore environmental data streams, connect with green spaces, and track biodiversity updates compiled by the UV infrastructure.</p>
+        </section>
+
+        <!-- Блок режима гостя (показывается только неавторизованным) -->
+        {% if not request.user.is_authenticated %}
+            <section class="glass-card">
+                <div class="guest-box">
+                    <h2>Guest Mode</h2>
+                    <p>Identification is required for full network and database access. Create an account to log environmental changes or view active nodes.</p>
+
+                    <a href="{% url 'register' %}" class="btn-primary">Create Account</a>
+
+                    <div class="login-prompt">
+                        Already have an account? <a href="{% url 'login' %}" class="login-link">Sign In</a>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        <!-- Блок ленты фида -->
+        <section class="glass-card feed-section">
+            <h2>Your Feed</h2>
+            <div class="feed-placeholder">
+                Your dynamic Django QuerySet stream will be rendered here.
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
