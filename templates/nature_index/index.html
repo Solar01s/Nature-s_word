@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Index — Живая природа и Биомы</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #06090b;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Динамический сочный неоновый фон */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, #00f2fe 0%, #4facfe 100%);
+            top: -10%;
+            right: -5%;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, #22c55e 0%, #00f2fe 100%);
+            bottom: -10%;
+            left: -5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.12; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.18; }
+        }
+
+        /* Стеклянная шапка (Glassmorphism Header) */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-item {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #00f2fe;
+        }
+
+        /* Главный контейнер */
+        main {
+            flex: 1;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 50px 20px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        /* Приветственный блок (Hero) с Землей */
+        .hero-section {
+            text-align: center;
+            padding: 20px 20px 40px 20px;
+            position: relative;
+        }
+
+        .earth-image {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.3);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-section p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+            line-height: 1.6;
+        }
+
+        /* Блок управления: Поиск и Кнопки создания */
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* Форма поиска (POST) */
+        .search-form {
+            display: flex;
+            width: 100%;
+            background: rgba(20, 27, 33, 0.65);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 14px;
+            padding: 6px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .search-form:focus-within {
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .search-input::placeholder {
+            color: #4b5563;
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+            border: none;
+            color: #06090b;
+            padding: 0 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .search-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Кнопки добавления контента */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.2s, box-shadow 0.3s;
+        }
+
+        .btn-biome {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #22c55e;
+        }
+
+        .btn-biome:hover {
+            background: rgba(34, 197, 94, 0.2);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-creature {
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+        }
+
+        .btn-creature:hover {
+            background: rgba(0, 242, 254, 0.2);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+            transform: translateY(-1px);
+        }
+
+        /* Карточки-панели (Glass Cards) */
+        .glass-card {
+            background: rgba(20, 27, 33, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Блок фида контента */
+        .feed-section h2 {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feed-section h2::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Сетка карточек вперемешку */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        /* Стили универсальной карточки */
+        .nature-card {
+            background: rgba(15, 22, 28, 0.7);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        /* Обозначение типа контента неоновым бордером */
+        .nature-card.type-biome {
+            border: 1px solid rgba(34, 197, 94, 0.15);
+        }
+        .nature-card.type-biome:hover {
+            border-color: #22c55e;
+            transform: translateY(-5px);
+        }
+
+        .nature-card.type-creature {
+            border: 1px solid rgba(0, 242, 254, 0.15);
+        }
+        .nature-card.type-creature:hover {
+            border-color: #00f2fe;
+            transform: translateY(-5px);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 60%;
+            background: #111827;
+        }
+
+        .card-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Метка (Badge) типа сверху на картинке */
+        .type-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .type-biome .type-badge {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+
+        .type-creature .type-badge {
+            background: rgba(0, 242, 254, 0.2);
+            color: #00f2fe;
+            border: 1px solid #00f2fe;
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            flex: 1;
+        }
+
+        .card-footer {
+            font-size: 0.8rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 12px;
+        }
+
+        .feed-placeholder {
+            border: 2px dashed rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            color: #475569;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .hero-section h1 { font-size: 2.2rem; }
+            .earth-image { width: 140px; height: 140px; }
+            .glass-card { padding: 25px 15px; }
+            .controls-wrapper { gap: 15px; }
+            .action-buttons { width: 100%; }
+            .btn-action { flex: 1; text-align: center; justify-content: center; }
+            .items-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <header>
+        <a href="#" class="logo">NatureIndex</a>
+        <div class="nav-links">
+            <a href="/" class="nav-item">← Home</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <!-- Earth from space image -->
+            <img src="https://unsplash.com" alt="Earth from space" class="earth-image">
+
+            <h1>Nature Index</h1>
+            <p>Explore the stunning diversity of our planet's ecosystems and the fascinating organisms that inhabit them.</p>
+
+            <!-- Controls (Search and Action Buttons) -->
+            <div class="controls-wrapper">
+
+                <!-- Search Form (POST request via query=...) -->
+                <form action="" method="POST" class="search-form">
+                    {% csrf_token %}
+                    <input type="text" name="query" class="search-input" placeholder="Search biomes or creatures..." required>
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'new_biome' %}" class="btn-action btn-biome"><span>+</span> Add Biome</a>
+                    <a href="{% url 'new_creature' %}" class="btn-action btn-creature"><span>+</span> Add Creature</a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="glass-card feed-section">
+            <h2>Explore Catalog</h2>
+
+            <div class="items-grid">
+                {% for item in items %}
+
+                    {% if item.climate %}
+                        <!-- BIOME CARD -->
+                        <article class="nature-card type-biome">
+                            <div class="card-img-wrapper">
+                                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="card-img">
+                                <span class="type-badge">Biome</span>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">{{ item.name }}</h3>
+                                <p class="card-desc">{{ item.description|truncatewords:20 }}</p>
+                                <div class="card-footer">Climate: {{ item.climate }}</div>
+                            </div>
+                        </article>
+                    {% else %}
+                        <!-- CREATURE CARD -->
+                        <article class="nature-card type-creature">
+                            <div class="card-img-wrapper">
+                                <img src="{{ item.image.url }}" alt="{{ item.name }}" class="card-img">
+                                <span class="type-badge">Creature</span>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">{{ item.name }}</h3>
+                                <p class="card-desc">{{ item.description|truncatewords:20 }}</p>
+                                <div class="card-footer">Habitat: {{ item.habitat }}</div>
+                            </div>
+                        </article>
+                    {% endif %}
+
+                {% empty %}
+                    <div class="feed-placeholder">
+                        The catalog is currently empty. Be the first to add a biome or a creature!
+                    </div>
+                {% endfor %}
+
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
