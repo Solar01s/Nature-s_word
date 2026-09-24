@@ -9,10 +9,11 @@ class BiomeForm(forms.ModelForm):
 
     class Meta:
         model = Biome
-        fields = ['name', 'description', 'creatures', 'related_biomes']
+        fields = ['name', 'description', 'image', 'creatures', 'related_biomes']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Ocean'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe this Biome...'}),
+            'image': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'image url e.g. https"//biome_photos.com/1234/'}),
             'related_biomes': forms.CheckboxSelectMultiple(),
             'creatures': forms.CheckboxSelectMultiple(),
         }
@@ -26,10 +27,12 @@ class BiomeForm(forms.ModelForm):
 class CreatureForm(forms.ModelForm):
     class Meta:
         model = Creature
-        fields = ['name', 'description', 'biomes', 'related_creatures']
+        fields = ['name', 'description', 'image', 'biomes', 'related_creatures']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Tiger'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe this Creature...'}),
+            'image': forms.URLInput(
+                attrs={'class': 'form-control', 'placeholder': 'image url e.g. https"//creature_photos.com/1234/'}),
             'biomes': forms.CheckboxSelectMultiple(),
             'related_creatures': forms.CheckboxSelectMultiple(),
 
