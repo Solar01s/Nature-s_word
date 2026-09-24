@@ -1,46 +1,39 @@
-from django.shortcuts import render, redirect
+from django import forms
 from .models import Biome, Creature
-from django.shortcuts import get_object_or_404
-from .forms import BiomeForm, CreatureForm
-import random
 
-def index_view(request):
-    if request.method == 'POST':
-        query = request.POST.get('query', '')
-        biomes = Biome.objects.filter(name__icontains=query)
-        creatures = Creature.objects.filter(name__icontains=query)
-    else:
-        biomes = Biome.objects.all()
-        creatures = Creature.objects.all()
-    mixed = list(biomes) + list(creatures)
-    items = random.shuffle(mixed)
-    return render(request, 'nature_index/index.html', {'items': items})
+class BiomeForm(forms.ModelForm):
 
-def new_creature_view(request):
-    if request.method == 'POST':
-        form = CreatureForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('nature_index')
-    else:
-        form = CreatureForm()
-    return render(request, 'nature_index/new_creature.html', {'form': form})
+    creatures = forms.ModelMultipleChoiceField(
+        queryset=Creature.objects.all(),
+        required=False,)
 
+    class Meta:
+        model = Biome
+        fields = ['name', 'description', 'image', 'creatures', 'related_biomes']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Ocean'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe this Biome...'}),
+            'image': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'image url e.g. https"//biome_photos.com/1234/'}),
+            'related_biomes': forms.CheckboxSelectMultiple(),
+            'creatures': forms.CheckboxSelectMultiple(),
+        }
 
-def new_biome_view(request):
-    if request.method == 'POST':
-        form = BiomeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('nature_index')
-    else:
-        form = BiomeForm()
-    return render(request, 'nature_index/new_biome.html', {'form': form})
+    def save(self, commit=True):
+        instance = super().save(commit=commit)
+        if commit:
+            instance.creatures.set(self.cleaned_data['creatures'])
+        return instance
 
-def biome_view(request, biome_id):
-    Biomes = get_object_or_404(Biome, pk=biome_id)
-    return render(request, 'nature_index/biome.html', {'Biomes': Biomes})
+class CreatureForm(forms.ModelForm):
+    class Meta:
+        model = Creature
+        fields = ['name', 'description', 'image', 'biomes', 'related_creatures']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Tiger'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe this Creature...'}),
+            'image': forms.URLInput(
+                attrs={'class': 'form-control', 'placeholder': 'image url e.g. https"//creature_photos.com/1234/'}),
+            'biomes': forms.CheckboxSelectMultiple(),
+            'related_creatures': forms.CheckboxSelectMultiple(),
 
-def creature_view(request, creature_id):
-    Creatures = get_object_or_404(Creature, pk=creature_id)
-    return render(request, 'nature_index/creature.html', {'Creatures': Creatures})
+        }
