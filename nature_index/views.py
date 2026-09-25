@@ -5,7 +5,6 @@ from .forms import BiomeForm, CreatureForm
 from django.contrib.auth.decorators import login_required
 import random
 
-@login_required(login_url='login')
 def index_view(request):
     if request.method == 'POST':
         query = request.POST.get('query', '')
