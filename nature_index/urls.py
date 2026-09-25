@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index_view, name='nature_index'),
-    path('/new/biome', views.new_biome_view, name='new_biome'),
-    path('/new/creature', views.new_creature_view, name='new_creature'),
+    path('new/biome/', views.new_biome_view, name='new_biome'),
+    path('new/creature/', views.new_creature_view, name='new_creature'),
+    path('biome/<int:pk>/', views.biome_view, name='biome'),
+    path('creature/<int:pk>/', views.creature_view, name='creature'),
 ]
