@@ -9,10 +9,11 @@ class BiomeForm(forms.ModelForm):
 
     class Meta:
         model = Biome
-        fields = ['name', 'description', 'image', 'creatures', 'related_biomes']
+        fields = ['name', 'description', 'climate', 'image', 'creatures', 'related_biomes']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Ocean'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Describe this Biome...'}),
+            'climate': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Describe climate this Biome...'}),
             'image': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'image url e.g. https"//biome_photos.com/1234/'}),
             'related_biomes': forms.CheckboxSelectMultiple(),
             'creatures': forms.CheckboxSelectMultiple(),
