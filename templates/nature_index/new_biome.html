@@ -203,10 +203,16 @@
                 <div class="field-instruction">Provide a detailed breakdown of geography, and unique features.</div>
                 {{ form.description }}
             </div>
-            
+
             <div class="form-group">
                 <label for="{{ form.climate.id_for_label }}">Climate</label>
                 <div class="field-instruction">Provide a detailed breakdown of climate.</div>
+                {{ form.climate }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Image URL</label>
+                <div class="field-instruction">Provide a link to an image for that biome.</div>
                 {{ form.climate }}
             </div>
 
