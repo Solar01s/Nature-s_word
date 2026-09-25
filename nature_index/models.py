@@ -3,7 +3,7 @@ from django.db import models
 class Biome(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(max_length=20_000)
-    image = models.URLField(max_length=500)
+    image = models.URLField(max_length=1500)
     climate = models.CharField(max_length=500)
 
     related_biomes = models.ManyToManyField(
