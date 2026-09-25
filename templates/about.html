@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Nature's Word</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #06090b;
+            color: #f1f5f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Dynamic neon glow background */
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(160px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+            animation: pulseGlow 10s ease-in-out infinite alternate;
+        }
+
+        .glow-1 {
+            background: radial-gradient(circle, #00f2fe 0%, #4facfe 100%);
+            top: -10%;
+            right: -5%;
+        }
+
+        .glow-2 {
+            background: radial-gradient(circle, #22c55e 0%, #00f2fe 100%);
+            bottom: -10%;
+            left: -5%;
+            animation-delay: -5s;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.12; }
+            100% { transform: scale(1.15) translate(30px, -20px); opacity: 0.18; }
+        }
+
+        /* STYLISH ANIMATION CLASSES (Scroll Reveal) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1),
+                        transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glassmorphism Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 18, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        /* Main Container */
+        main {
+            flex: 1;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 20px;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        /* Return Buttons */
+        .btn-back-wrapper {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: rgba(0, 242, 254, 0.05);
+            border-color: rgba(0, 242, 254, 0.3);
+            color: #00f2fe;
+            transform: translateX(-3px);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        /* Text Blocks and Glass Cards */
+        .glass-card {
+            background: rgba(20, 27, 33, 0.65);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transition: border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .about-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .accent-text {
+            background: linear-gradient(135deg, #00f2fe 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .text-block p {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .text-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Two-column features grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 15px;
+        }
+
+        .feature-item {
+            background: rgba(15, 22, 28, 0.7);
+            border-radius: 18px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-4px);
+        }
+
+        .feature-item.biome-style { border-left: 4px solid #22c55e; }
+        .feature-item.biome-style:hover { border-color: #22c55e; box-shadow: 0 5px 20px rgba(34, 197, 94, 0.1); }
+
+        .feature-item.spaces-style { border-left: 4px solid #00f2fe; }
+        .feature-item.spaces-style:hover { border-color: #00f2fe; box-shadow: 0 5px 20px rgba(0, 242, 254, 0.1); }
+
+        .feature-item h3 {
+            font-size: 1.3rem;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .about-hero h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <header>
+        <a href="{% url 'main' %}" class="logo">Nature's Word</a>
+    </header>
+
+    <main>
+        <!-- TOP RETURN BUTTON -->
+        <div class="btn-back-wrapper reveal">
+            <a href="{% url 'main' %}" class="btn-back">
+                &larr; Back to Main
+            </a>
+        </div>
+
+        <!-- MAIN HERO BLOCK: WHO WE ARE -->
+        <section class="glass-card about-hero reveal">
+            <h1>About <span class="accent-text">Nature's Word</span></h1>
+            <div class="text-block">
+                <p><strong>Nature's Word</strong> is a high-tech environmental ecosystem born within the core of <strong>UV</strong>. As a premier hub for AI developers, UV provides global tech pioneers with robust computing power, open sandboxes for cutting-edge experiments, and its own proprietary next-gen neural network models.</p>
+                <p>We firmly believe that the greatest challenge of our century — the preservation of Earth's fragile biosphere — cannot be solved using outdated frameworks. That is why UV established the Nature's Word brand. Our core mission is the direct convergence of deep machine learning, generative artificial intelligence, and field biology to monitor, analyze, and actively protect the living world around us.</p>
+            </div>
+        </section>
+        <!-- SECTION 2: CORE ECOSYSTEMS (NATURE INDEX & SPACES) -->
+        <section class="glass-card reveal">
+            <h2 class="section-title">Ecosystem Pillars</h2>
+
+            <div class="text-block">
+                <p>By leveraging the raw artificial intelligence capabilities developed on the <strong>UV</strong> platform, Nature's Word builds continuous feedback loops between human communities and deep-tech models. We operate through two interconnected digital spaces designed to turn environmental theories into direct action.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- NATURE INDEX -->
+                <div class="feature-item biome-style">
+                    <h3>Nature Index</h3>
+                    <p style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6;">
+                        A comprehensive, dynamic ledger documenting the complex diversity of our planet's ecosystems. Powered by UV's multimodal AI models, the Nature Index categorizes complex biomes and tracks biological organisms. It provides global researchers with real-time analytics to understand how climate shifts impact endangered species and local flora.
+                    </p>
+                </div>
+
+                <!-- SPACES -->
+                <div class="feature-item spaces-style">
+                    <h3>Spaces & Communities</h3>
+                    <p style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6;">
+                        The ultimate launchpad for grassroots eco-movements. Spaces allow activists, developers, and field experts to collaborate, brainstorm innovative green tech solutions, and form local chapters. Here, people unite around shared global goals, turning concepts into scalable real-world operations.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: UV FUNDING & GLOBAL IMPACT -->
+        <section class="glass-card reveal">
+            <h2 class="section-title">UV Synergy & Funding</h2>
+            <div class="text-block">
+                <p>What makes our community truly unique is the active financial backing from <strong>UV</strong>. We don't just host discussions; we turn viable ideas into heavily funded projects. When a group of creators within a <strong>Space</strong> devises a promising solution — whether it's an AI tool for tracking illegal deforestation, automated ocean cleanup drone software, or an urban reforestation strategy — UV provides the necessary capital.</p>
+                <p>Through this ecosystem, developers get access to proprietary computational clusters to test their neural setups, while community-driven ecological movements secure direct funding to scale their field operations. It is a seamless bridge connecting advanced silicon technology with organic planetary survival.</p>
+            </div>
+        </section>
+        <!-- SECTION 4: OUR VISION FOR THE FUTURE -->
+        <section class="glass-card reveal">
+            <h2 class="section-title">The Digital Horizon</h2>
+            <div class="text-block">
+                <p>We are standing at a critical crossroads where technological evolution must become the guardian of biological life. Through the combined power of AI experimentation and local community action, Nature's Word is proving that humanity can use its most advanced silicon achievements to heal the organic canvas of our planet.</p>
+                <p>Whether you are an AI developer looking to deploy neural networks for social good, an ecologist mapping local biodiversity, or a passionate individual ready to start a grassroots movement — there is a place for you here. Together, with the engineering backbone and financial support of UV, we are writing a new chapter for Earth.</p>
+            </div>
+        </section>
+
+        <!-- BOTTOM RETURN BUTTON -->
+        <div class="btn-back-wrapper reveal" style="justify-content: center; margin-top: 15px;">
+            <a href="{% url 'main' %}" class="btn-back" style="padding: 12px 30px; font-size: 0.95rem;">
+                &larr; Back to Main Page
+            </a>
+        </div>
+    </main>
+
+    <footer style="text-align: center; padding: 30px; color: #4b5563; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.02); z-index: 1; position: relative;">
+        &copy; 2026 Nature's Word &bull; Powered by UV Platform. All rights reserved.
+    </footer>
+
+    <!-- HIGH-PERFORMANCE INTERSECTION OBSERVER FOR SCROLL REVEAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const observerOptions = {
+                root: null, // Использовать viewport браузера
+                rootMargin: '0px 0px -60px 0px', // Элемент начнет проявляться чуть раньше, чем дойдет до низа экрана
+                threshold: 0.1 // Срабатывает, когда 10% элемента видны на экране
+            };
+
+            const revealOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // После активации анимации прекращаем наблюдение за этим элементом (для производительности)
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(element => {
+                revealOnScroll.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
