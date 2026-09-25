@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nature Index in Nature's Word/title>
+    <title>Nature Index in Nature's Word</title>
     <style>
         * {
             box-sizing: border-box;
@@ -386,6 +386,46 @@
             grid-column: 1 / -1;
         }
 
+        .btn-explore {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin-top: auto; /* Прижмет кнопку к низу карточки, если у них разная высота */
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+/* Кнопка для Биома (Зеленый неон) */
+.btn-explore-biome {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #22c55e;
+}
+
+.btn-explore-biome:hover {
+    background: #22c55e;
+    color: #06090b; /* Темный текст при наведении для читаемости */
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+    transform: scale(1.02);
+}
+
+/* Кнопка для Существа (Голубой неон) */
+.btn-explore-creature {
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    color: #00f2fe;
+}
+
+.btn-explore-creature:hover {
+    background: #00f2fe;
+    color: #06090b; /* Темный текст при наведении для читаемости */
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+    transform: scale(1.02);
+}
+
         /* Адаптивность */
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
@@ -405,7 +445,7 @@
     <div class="bg-glow glow-2"></div>
 
     <header>
-        <a href="#" class="logo">NatureIndex</a>
+        <a href="https://uvais.tech" class="logo">UV</a>
         <div class="nav-links">
             <a href="/" class="nav-item">← Home</a>
         </div>
@@ -451,7 +491,8 @@
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">{{ item.name }}</h3>
-                                <p class="card-desc">{{ item.description|truncatewords:20 }}</p>
+                                <p class="card-desc">{{ item.description|truncatewords:40 }}</p>
+                                <a href="{% url 'biome' item.pk %}" class="btn-explore btn-explore-biome">Explore</a>
                             </div>
                         </article>
                     {% else %}
@@ -463,7 +504,8 @@
                             </div>
                             <div class="card-content">
                                 <h3 class="card-title">{{ item.name }}</h3>
-                                <p class="card-desc">{{ item.description|truncatewords:20 }}</p>
+                                <p class="card-desc">{{ item.description|truncatewords:40 }}</p>
+                                <a href="{% url 'creature' item.pk %}" class="btn-explore btn-explore-creature">Explore</a>
                             </div>
                         </article>
                     {% endif %}
