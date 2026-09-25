@@ -8,4 +8,5 @@ urlpatterns = [
     path('', views.main_view, name='main'),
     path('accounts/', include('accounts.urls')),
     path('nature_index/', include('nature_index.urls')),
+    path('about/', views.about_view, name='about'),
 ]
