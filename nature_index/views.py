@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .models import Biome, Creature
 from django.shortcuts import get_object_or_404
 from .forms import BiomeForm, CreatureForm
+from django.contrib.auth.decorators import login_required
 import random
 
+@login_required(login_url='login')
 def index_view(request):
     if request.method == 'POST':
         query = request.POST.get('query', '')
@@ -16,6 +18,7 @@ def index_view(request):
     random.shuffle(mixed)
     return render(request, 'nature_index/index.html', {'items': mixed})
 
+@login_required(login_url='login')
 def new_creature_view(request):
     if request.method == 'POST':
         form = CreatureForm(request.POST)
@@ -28,7 +31,7 @@ def new_creature_view(request):
         form = CreatureForm()
     return render(request, 'nature_index/new_creature.html', {'form': form})
 
-
+@login_required(login_url='login')
 def new_biome_view(request):
     if request.method == 'POST':
         form = BiomeForm(request.POST)
