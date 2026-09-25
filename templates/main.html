@@ -267,7 +267,7 @@
         <a href="/" class="logo">Nature's Word</a>
         <nav class="nav-links">
             <a href="{% url 'nature_index' %}" class="nav-item">Nature Index</a>
-            <a href="#" class="nav-item">About</a>
+            <a href="{% url 'about' %}" class="nav-item">About</a>
             <a href="#" class="nav-item">Spaces</a>
 
             {% if not request.user.is_authenticated %}
