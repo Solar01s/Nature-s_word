@@ -200,8 +200,14 @@
             <!-- Поле: Description -->
             <div class="form-group">
                 <label for="{{ form.description.id_for_label }}">Description</label>
-                <div class="field-instruction">Provide a detailed breakdown of geography, climate, and unique features.</div>
+                <div class="field-instruction">Provide a detailed breakdown of geography, and unique features.</div>
                 {{ form.description }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.climate.id_for_label }}">Climate</label>
+                <div class="field-instruction">Provide a detailed breakdown of climate.</div>
+                {{ form.climate }}
             </div>
 
             <!-- Поле: Related Biomes (ManyToMany self) -->
