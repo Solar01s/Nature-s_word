@@ -42,9 +42,9 @@ def new_biome_view(request):
     return render(request, 'nature_index/new_biome.html', {'form': form})
 
 def biome_view(request, biome_id):
-    Biomes = get_object_or_404(Biome, pk=biome_id)
-    return render(request, 'nature_index/biome.html', {'Biomes': Biomes})
+    biome = get_object_or_404(Biome, pk=biome_id)
+    return render(request, 'nature_index/biome.html', {'biome': biome})
 
 def creature_view(request, creature_id):
-    Creatures = get_object_or_404(Creature, pk=creature_id)
-    return render(request, 'nature_index/creature.html', {'Creatures': Creatures})
+    creature = get_object_or_404(Creature, pk=creature_id)
+    return render(request, 'nature_index/creature.html', {'creature': creature})
