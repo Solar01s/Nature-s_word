@@ -203,7 +203,7 @@
 
                 <div class="biome-tags">
                     {% for biome in creature.biomes.all %}
-                        <a href="{% url 'biome_detail' biome.pk %}" class="biome-tag">📍 {{ biome.name }}</a>
+                        <a href="{% url 'biome' biome.pk %}" class="biome-tag">📍 {{ biome.name }}</a>
                     {% empty %}
                         <span class="no-data">Habitat unknown</span>
                     {% endfor %}
