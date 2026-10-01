@@ -124,7 +124,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
-            filter: brightness(0.4) contrast(1.1);
+            filter: brightness(0.75) contrast(1.1);
             transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -132,7 +132,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, var(--bg-dark) 0%, rgba(7, 10, 14, 0.4) 60%, transparent 100%);
+            background: linear-gradient(to top, rgba(7, 10, 14, 0.6) 0%, rgba(7, 10, 14, 0.1) 60%, transparent 100%);
             z-index: -1;
         }
 
@@ -148,6 +148,7 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 12px;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
         }
 
         .climate-badge {
@@ -304,7 +305,7 @@
                 <img src="{{ biome.image }}" alt="{{ biome.name }}" class="earth-image">
             {% endif %}
             <h1 class="biome-title">{{ biome.name }}</h1>
-            <div class="climate-badge">Climate: {{ biome.climate }}</div>
+            <div class="climate-badge">SYSTEM_CLIMATE // {{ biome.climate }}</div>
         </div>
 
         <div class="content-split">
@@ -314,10 +315,10 @@
                     <p class="description-text">{{ biome.description }}</p>
                 </section>
                 <section>
-                    <h2 class="section-header">Registered Creatures</h2>
+                    <h2 class="section-header">Registered Organisms</h2>
                     <div class="grid-layout">
                         {% for creature in biome.creatures.all %}
-                            <a href="{% url 'creature' creature.pk %}" class="sub-card">
+                            <a href="/creature/{{ creature.pk }}/" class="sub-card">
                                 {% if creature.image %}
                                     <img src="{{ creature.image }}" alt="{{ creature.name }}" class="sub-card-thumb">
                                 {% endif %}
@@ -338,7 +339,7 @@
                     <ul class="node-list">
                         {% for rel_biome in biome.related_biomes.all %}
                             <li>
-                                <a href="{% url 'biome' rel_biome.pk %}" class="node-link">→ {{ rel_biome.name }}</a>
+                                <a href="/biome/{{ rel_biome.pk }}/" class="node-link">→ {{ rel_biome.name }}</a>
                             </li>
                         {% empty %}
                             <li class="status-empty">No boundary connections recorded.</li>
