@@ -10,6 +10,7 @@ class Biome(models.Model):
         'self',
         symmetrical=False,
         blank=True,
+        null=True,
     )
 
     def __str__(self):
@@ -20,12 +21,13 @@ class Creature(models.Model):
     description = models.TextField(max_length=20_000)
     image = models.URLField(max_length=500)
 
-    biomes = models.ManyToManyField(Biome, related_name='creatures')
+    biomes = models.ManyToManyField(Biome, related_name='creatures', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     related_creatures = models.ManyToManyField(
         'self',
         symmetrical=False,
         blank=True,
+        null=True,
     )
 
     def __str__(self):
