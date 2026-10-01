@@ -10,7 +10,6 @@ class Biome(models.Model):
         'self',
         symmetrical=False,
         blank=True,
-        null=True,
     )
 
     def __str__(self):
@@ -27,7 +26,6 @@ class Creature(models.Model):
         'self',
         symmetrical=False,
         blank=True,
-        null=True,
     )
 
     def __str__(self):
