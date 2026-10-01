@@ -7,7 +7,7 @@ class Profile(models.Model):
     username = models.CharField(verbose_name='Real name', max_length=100)
     email = models.EmailField(verbose_name='Email', max_length=100)
     age = models.IntegerField(verbose_name='Age', validators=[MaxValueValidator(0), MaxValueValidator(100)],)
-    about = models.CharField(verbose_name='About', max_length=500)
+    about = models.CharField(verbose_name='About', max_length=500, blank=True, null=True)
 
     def __str__(self):
         return f"Profile for {self.user.username}"
