@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ creature.name }} — Creature</title>
+    <title>{{ creature.name }} — Profile</title>
     <style>
         :root {
             --bg-dark: #070a0e;
@@ -291,12 +291,11 @@
             {% endif %}
 
             <div class="specimen-header">
-                <div class="index-tag">SPECIMEN // DATA_RECORDED_{{ creature.created_at|date:"Ymd" }}</div>
                 <h1 class="creature-title">{{ creature.name }}</h1>
 
                 <div class="env-track">
                     {% for biome in creature.biomes.all %}
-                        <a href="/biome/{{ biome.pk }}/" class="env-node">{{ biome.name }}</a>
+                        <a href="{% url 'biome' biome.pk %}" class="env-node">{{ biome.name }}</a>
                     {% empty %}
                         <span class="status-empty">No native biomes cataloged</span>
                     {% endfor %}
@@ -312,7 +311,7 @@
             <h2 class="section-header">Related Species</h2>
             <div class="grid-layout">
                 {% for rel_creature in creature.related_creatures.all %}
-                    <a href="/creature/{{ rel_creature.pk }}/" class="sub-card">
+                    <a href="{% url 'creature' rel_creature.pk %}" class="sub-card">
                         {% if rel_creature.image %}
                             <img src="{{ rel_creature.image }}" alt="{{ rel_creature.name }}" class="sub-card-thumb">
                         {% endif %}
