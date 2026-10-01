@@ -45,7 +45,7 @@ def new_biome_view(request):
 
 def biome_view(request, pk):
     biome = get_object_or_404(Biome, pk=pk)
-    return render(request, 'nature_index/creature.html', {'biome': biome})
+    return render(request, 'nature_index/biome.html', {'biome': biome})
 
 def creature_view(request, pk):
     creature = get_object_or_404(Creature, pk=pk)
