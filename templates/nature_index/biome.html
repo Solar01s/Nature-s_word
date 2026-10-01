@@ -318,7 +318,7 @@
                     <h2 class="section-header">Registered Organisms</h2>
                     <div class="grid-layout">
                         {% for creature in biome.creatures.all %}
-                            <a href="/creature/{{ creature.pk }}/" class="sub-card">
+                            <a href="{% url 'creature' creature.pk %}" class="sub-card">
                                 {% if creature.image %}
                                     <img src="{{ creature.image }}" alt="{{ creature.name }}" class="sub-card-thumb">
                                 {% endif %}
@@ -339,7 +339,7 @@
                     <ul class="node-list">
                         {% for rel_biome in biome.related_biomes.all %}
                             <li>
-                                <a href="/biome/{{ rel_biome.pk }}/" class="node-link">→ {{ rel_biome.name }}</a>
+                                <a href="{% url 'biome' rel_biome.pk %}" class="node-link">→ {{ rel_biome.name }}</a>
                             </li>
                         {% empty %}
                             <li class="status-empty">No boundary connections recorded.</li>
