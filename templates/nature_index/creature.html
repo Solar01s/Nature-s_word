@@ -323,8 +323,6 @@
                 <img src="{{ creature.image }}" alt="{{ creature.name }}" class="specimen-bg-image">
             {% endif %}
 
-            <a href="{% url 'edit_creature' creature.pk %}" class="btn-edit-action">Make revisions</a>
-
             <div class="specimen-header">
                 <h1 class="creature-title">{{ creature.name }}</h1>
 
@@ -339,8 +337,8 @@
         </div>
 
 
-
         <div>
+            <a href="{% url 'edit_creature' creature.pk %}" class="btn-edit-action">Make revisions</a>
             <h2 class="section-header">Biological Description</h2>
             <p class="bio-desc">{{ creature.description }}</p>
         </div>
