@@ -43,6 +43,30 @@ def new_biome_view(request):
         form = BiomeForm()
     return render(request, 'nature_index/new_biome.html', {'form': form})
 
+@login_required(login_url='login')
+def edit_biome_view(request, pk):
+    object = get_object_or_404(Biome, pk=pk)
+    if request.method == 'POST':
+        form = BiomeForm(request.POST, instance=object)
+        if form.is_valid():
+            form.save()
+            return redirect('nature_index')
+    else:
+        form = BiomeForm(instance=object)
+    return render(request, 'nature_index/new_biome.html', {'form': form})
+
+@login_required(login_url='login')
+def edit_creature_view(request, pk):
+    object = get_object_or_404(Creature, pk=pk)
+    if request.method == 'POST':
+        form = CreatureForm(request.POST, instance=object)
+        if form.is_valid():
+            form.save()
+            return redirect('nature_index')
+    else:
+        form = BiomeForm(instance=object)
+    return render(request, 'nature_index/new_creature.html', {'form': form})
+
 def biome_view(request, pk):
     biome = get_object_or_404(Biome, pk=pk)
     return render(request, 'nature_index/biome.html', {'biome': biome})
