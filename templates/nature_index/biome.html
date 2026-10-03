@@ -318,7 +318,7 @@
                 </section>
 
                 <section>
-                    <h2 class="section-header">Registered Organisms</h2>
+                    <h2 class="section-header">They live in {{ biome.name }}</h2>
                     <div class="grid-layout">
                         {% for creature in biome.creatures.all %}
                             <a href="{% url 'creature' creature.pk %}" class="sub-card">
@@ -338,7 +338,7 @@
 
             <aside class="right-column">
                 <div class="sidebar-panel">
-                    <h2 class="section-header" style="font-size: 0.9rem; margin-bottom: 16px;">Adjacent Sectors</h2>
+                    <h2 class="section-header" style="font-size: 0.9rem; margin-bottom: 16px;">Adjacent Biomes</h2>
                     <ul class="node-list">
                         {% for rel_biome in biome.related_biomes.all %}
                             <li>
